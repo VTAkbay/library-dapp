@@ -72,10 +72,16 @@ contract Library {
         book.copyIds.push(copyId);
     }
 
-    function deleteBook(uint256 index) public {
-        for (uint256 i = index; i < books.length - 1; i++) {
-            books[i] = books[i + 1];
-        }
+    function deleteCopy(string memory isbn, uint256 copyId) public onlyOwner {
+        Book storage book = bookByIsbn[isbn];
+        require(book._isValid, "Invalid book");
+        Copy storage copy = copies[copyId];
+        require(copy._isValid, "Invalid copy");
+        require(copy.holder == address(0), "Copy is held");
+        copy._isValid = false;
+        book.removeCopy(copyId);
+        delete copies[copyId];
+    }
         books.pop();
     }
 }
