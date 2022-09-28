@@ -46,6 +46,22 @@ contract Library {
 
         bookIsbns.push(isbn);
     }
+
+    function removeBook(string memory isbn) public onlyOwner {
+        Book storage book = bookByIsbn[isbn];
+        require(book._isValid, "Invalid book");
+        require(book.copyIds.length == 0, "Book has copies");
+        book._isValid = false;
+        delete bookByIsbn[isbn];
+
+        for (uint256 i = 0; i < bookIsbns.length; i++) {
+            if (bookIsbns[i].equals(isbn)) {
+                bookIsbns[i] = bookIsbns[bookIsbns.length - 1];
+                bookIsbns.pop();
+                break;
+            }
+        }
+    }
     }
 
     function deleteBook(uint256 index) public {
