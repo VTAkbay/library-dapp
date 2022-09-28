@@ -62,6 +62,14 @@ contract Library {
             }
         }
     }
+
+    function addCopy(string memory isbn) public onlyOwner {
+        Book storage book = bookByIsbn[isbn];
+        require(book._isValid, "Invalid book");
+        uint256 copyId = _nextCopyId++;
+        Copy storage copy = copies[copyId];
+        copy._isValid = true;
+        book.copyIds.push(copyId);
     }
 
     function deleteBook(uint256 index) public {
