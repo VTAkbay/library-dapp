@@ -10,4 +10,9 @@ npx hardhat test
 REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
+
+npx hardhat compile
+npm run test
+npx hardhat run scripts/deployLibrary.ts --network goerli
+npx hardhat verify --network goerli <contractAddress>
 ```
