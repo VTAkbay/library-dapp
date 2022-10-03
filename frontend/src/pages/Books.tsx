@@ -1,3 +1,5 @@
+import BookComponent from "../components/BookComponent";
+
 export default function Books() {
-  return <div>Books Page</div>;
+  return <BookComponent />;
 }
