@@ -22,7 +22,7 @@ function App() {
         coolMode
         // theme={theme.palette.mode === "dark" ? darkTheme() : lightTheme()}
         chains={chains}
-        initialChain={chain.polygonMumbai}
+        initialChain={chain.goerli}
         showRecentTransactions={true}
       >
         <Header />
