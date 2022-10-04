@@ -6,15 +6,16 @@ import {
   CardContent,
   CardMedia,
   Container,
-  Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "./Loader";
+import ShareButton from "./ShareButton";
 
-declare module namespace {
+declare module interfaces {
   export interface Copy {
     id: string;
   }
@@ -28,38 +29,65 @@ declare module namespace {
     copies: Copy[];
   }
 
-  export interface RootObject {
+  export interface BookInterface {
     books: Book[];
     total: string;
   }
+
+  export interface BookComponentProps {
+    bookId?: string;
+  }
 }
 
-export default function BookComponent() {
+export default function BookComponent({
+  bookId,
+}: interfaces.BookComponentProps) {
   const isMobile = useMediaQuery("(max-width:899px)");
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [data, setData] = React.useState<interfaces.BookInterface>();
 
-  const [books, setBooks] = React.useState<namespace.RootObject>();
-
-  React.useEffect(() => {
+  function getBooks() {
     axios
       .get("http://localhost:3001/books")
       .then(function (response) {
-        // handle success
-        console.log(response.data);
-
-        setBooks(response.data);
-        setLoading(false);
+        setData(response.data);
       })
       .catch(function (error) {
-        // handle error
-        console.log(error);
+        setError(true);
+        setErrorMessage("Error fetching books.");
       })
       .then(function () {
-        // always executed
+        setLoading(false);
       });
-  }, []);
+  }
 
-  console.log(books);
+  function getABook() {
+    axios
+      .get("http://localhost:3001/books")
+      .then(function (response) {
+        setData({
+          books: [response.data.books[0]],
+          total: "1",
+        });
+      })
+      .catch(function (error) {
+        setError(true);
+        setErrorMessage("Error fetching books.");
+      })
+      .then(function () {
+        setLoading(false);
+      });
+  }
+
+  React.useEffect(() => {
+    if (bookId) {
+      getABook();
+    } else {
+      getBooks();
+    }
+  }, [bookId]);
 
   return (
     <>
@@ -73,29 +101,29 @@ export default function BookComponent() {
             justifyContent: "center",
           }}
         >
-          <Stack
-            direction="column"
-            spacing={3}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            {books?.books.length === 0 ? (
+          <Typography sx={{ textAlign: "center" }}>
+            {error && <div>{error && errorMessage}</div>}
+            {(data?.books?.length === 0 || !data) && !error && (
               <div>No books</div>
-            ) : (
-              books?.books.map((book) => {
-                return (
-                  <Card
-                    key={book.id}
-                    variant="outlined"
-                    sx={{ width: isMobile ? "70vw" : "50vw" }}
-                  >
-                    <CardActionArea component={Link} to={`/story/${book.id}`}>
+            )}
+          </Typography>
+          <Grid
+            container
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 4, sm: 8, md: 12 }}
+            justifyContent="center"
+            alignItems="center"
+          >
+            {data?.books.map((book) => {
+              return (
+                <Grid xs={2} sm={4} md={4} key={book.id}>
+                  <Card variant="outlined">
+                    <CardActionArea component={Link} to={`/book/${book.id}`}>
                       <CardMedia
                         component="img"
-                        height={isMobile ? "80" : "150"}
+                        height={isMobile ? "80" : "200"}
                         image={"https://picsum.photos/1920/1080"}
-                        alt="story image"
+                        alt="book image"
                       />
 
                       <CardContent>
@@ -122,13 +150,13 @@ export default function BookComponent() {
                     </CardActionArea>
 
                     <CardActions>
-                      {/* <ShareButton storyId={story.id} /> */}
+                      <ShareButton bookId={book.id} />
                     </CardActions>
                   </Card>
-                );
-              })
-            )}
-          </Stack>
+                </Grid>
+              );
+            })}
+          </Grid>
         </Container>
       )}
     </>
