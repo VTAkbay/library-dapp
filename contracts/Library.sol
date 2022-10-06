@@ -30,6 +30,14 @@ contract Library {
     uint256 private _nextCopyId;
     mapping(uint256 => Copy) public copies;
 
+    function getBookIsbnsLength()
+        public
+        view
+        returns (uint256 bookIsbnsLength)
+    {
+        return bookIsbns.length;
+    }
+
     function addBook(
         string memory title,
         string memory authorFirstName,
