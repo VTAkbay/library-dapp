@@ -59,54 +59,87 @@ export default function BookComponent({
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [data, setData] = React.useState<interfaces.BookInterface>();
+  const [contractRead, setContractRead] = React.useState(false);
+  const { isConnected, isConnecting, isReconnecting, address } = useAccount();
 
-  function getBooks() {
-    axios
-      .get("http://localhost:3001/books")
-      .then(function (response) {
-        setData(response.data);
-      })
-      .catch(function (error) {
-        setError(true);
-        setErrorMessage("Error fetching books.");
-      })
-      .then(function () {
-        setLoading(false);
-      });
-  }
+  console.log("data", data);
 
-  function getABook() {
-    axios
-      .get("http://localhost:3001/books")
-      .then(function (response) {
-        setData({
-          books: [response.data.books[0]],
-          total: "1",
-        });
-      })
-      .catch(function (error) {
-        setError(true);
-        setErrorMessage("Error fetching books.");
-      })
-      .then(function () {
-        setLoading(false);
-      });
-  }
+  // Create get a book for the book page function
+
+  const { data: bookIsbnsLength } = useContractRead({
+    addressOrName: contractAdress,
+    contractInterface: contractInterface,
+    functionName: "getBookIsbnsLength",
+    enabled: contractRead,
+  });
+
+  const { data: bookIsbns } = useContractInfiniteReads({
+    cacheKey: "library-dapp",
+    ...paginatedIndexesConfig(
+      (index) => ({
+        ...libraryContract,
+        functionName: "bookIsbns",
+        args: [index],
+      }),
+      {
+        start: 0,
+        perPage: Number(bookIsbnsLength?._hex),
+        direction: "increment",
+      }
+    ),
+    enabled: Boolean(bookIsbnsLength),
+  });
+
+  const { data: books } = useContractReads({
+    contracts: bookIsbns!.pages[0].map((book: any) => ({
+      addressOrName: contractAdress,
+      contractInterface: contractInterface,
+      functionName: "bookByIsbn",
+      args: [book],
+    })),
+    enabled: Boolean(bookIsbns),
+  });
 
   React.useEffect(() => {
-    if (bookId) {
-      getABook();
-    } else {
-      getBooks();
+    if (books) {
+      try {
+        setData({
+          books: books?.map((book) => ({
+            isValid: book._isValid,
+            owner: book._owner,
+            isbn: book._isbn,
+            title: book._title,
+            authorFirstName: book._authorFirstName,
+            authorLastName: book._authorLastName,
+          })),
+          total: books.length,
+        });
+      } catch {
+        setError(true);
+        setErrorMessage("Error fetching books.");
+      }
+
+      setLoading(false);
     }
-  }, [bookId]);
+  }, [books]);
+
+  React.useEffect(() => {
+    if (address && !isConnecting && !isReconnecting && bookIsbns) {
+      setContractRead(true);
+    }
+  }, [address, isConnecting, isReconnecting, bookIsbns]);
 
   return (
     <>
-      {loading && <Loader />}
-      {!loading && (
+      {(isConnecting || isReconnecting || loading) && <Loader />}
+
+      {!isConnecting && !isReconnecting && !isConnected && !loading && (
+        <div>Please connect wallet.</div>
+      )}
+
+      {!isConnecting && !isReconnecting && isConnected && !loading && (
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           sx={{
             marginTop: "2rem",
             marginBottom: "2rem",
@@ -121,7 +154,7 @@ export default function BookComponent({
           </Typography>
           <Grid
             container
-            spacing={{ xs: 2, md: 3 }}
+            spacing={{ xs: 1, md: 2 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
             justifyContent="center"
             alignItems="center"
