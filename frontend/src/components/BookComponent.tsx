@@ -128,9 +128,9 @@ export default function BookComponent({
           >
             {data?.books.map((book) => {
               return (
-                <Grid xs={2} sm={4} md={4} key={book.id}>
+                <Grid xs={2} sm={4} md={4} key={book.isbn}>
                   <Card variant="outlined">
-                    <CardActionArea component={Link} to={`/book/${book.id}`}>
+                    <CardActionArea component={Link} to={`/book/${book.isbn}`}>
                       <CardMedia
                         component="img"
                         height={isMobile ? "80" : "200"}
@@ -162,7 +162,7 @@ export default function BookComponent({
                     </CardActionArea>
 
                     <CardActions>
-                      <ShareButton bookId={book.id} />
+                      <ShareButton bookIsbn={book.isbn} />
                     </CardActions>
                   </Card>
                 </Grid>
