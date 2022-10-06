@@ -9,13 +9,13 @@ import { openInNewTab } from "../lib/utils";
 import { Tooltip, useTheme } from "@mui/material";
 
 interface ShareButtonProps {
-  bookId: string;
+  bookIsbn: string;
 }
 
-export default function ShareButton({ bookId }: ShareButtonProps) {
+export default function ShareButton({ bookIsbn }: ShareButtonProps) {
   const theme = useTheme();
-  const baseUrl = `${window.location.host}%2Flibrary-dapp%2F%23%2Fbook/${bookId}`;
-  const copyUrl = `${window.location.host}/library-dapp/#/book/${bookId}`;
+  const baseUrl = `${window.location.host}%2Flibrary-dapp%2F%23%2Fbook/${bookIsbn}`;
+  const copyUrl = `${window.location.host}/library-dapp/#/book/${bookIsbn}`;
 
   const actions = [
     {
