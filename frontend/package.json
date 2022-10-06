@@ -29,6 +29,7 @@
   },
   "scripts": {
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
+    "start-prod": "serve -s build",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "build-localhost": "GENERATE_SOURCEMAP=false PUBLIC_URL=/ react-scripts build",
     "test": "react-scripts test",
