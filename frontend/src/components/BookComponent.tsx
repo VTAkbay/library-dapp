@@ -11,9 +11,20 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import Loader from "./Loader";
 import ShareButton from "./ShareButton";
+import {
+  useAccount,
+  useContractRead,
+  useContractReads,
+  useContractInfiniteReads,
+  paginatedIndexesConfig,
+} from "wagmi";
+import {
+  contractAdress,
+  contractInterface,
+  libraryContract,
+} from "../lib/utils";
 
 declare module interfaces {
   export interface Copy {
@@ -21,26 +32,27 @@ declare module interfaces {
   }
 
   export interface Book {
-    id: string;
+    isValid: boolean;
+    owner: string;
     isbn: string;
     title: string;
     authorFirstName: string;
     authorLastName: string;
-    copies: Copy[];
+    copies?: Copy[];
   }
 
   export interface BookInterface {
     books: Book[];
-    total: string;
+    total: number;
   }
 
   export interface BookComponentProps {
-    bookId?: string;
+    bookIsbn?: string;
   }
 }
 
 export default function BookComponent({
-  bookId,
+  bookIsbn,
 }: interfaces.BookComponentProps) {
   const isMobile = useMediaQuery("(max-width:899px)");
   const [loading, setLoading] = React.useState(true);
