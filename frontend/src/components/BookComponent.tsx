@@ -175,7 +175,6 @@ export default function BookComponent({
                         <Typography
                           gutterBottom
                           variant={isMobile ? "h6" : "h5"}
-                          component="div"
                         >
                           {book.title}
                         </Typography>
