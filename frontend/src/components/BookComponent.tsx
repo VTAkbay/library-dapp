@@ -111,17 +111,33 @@ export default function BookComponent({
   React.useEffect(() => {
     if (books) {
       try {
-        setData({
-          books: books?.map((book) => ({
-            isValid: book._isValid,
-            owner: book._owner,
-            isbn: book._isbn,
-            title: book._title,
-            authorFirstName: book._authorFirstName,
-            authorLastName: book._authorLastName,
-          })),
-          total: books.length,
-        });
+        if (bookIsbn) {
+          setData({
+            books: books
+              ?.map((book) => ({
+                isValid: book._isValid,
+                owner: book._owner,
+                isbn: book._isbn,
+                title: book._title,
+                authorFirstName: book._authorFirstName,
+                authorLastName: book._authorLastName,
+              }))
+              .filter((book) => book.isbn === bookIsbn),
+            total: books.filter((book) => book._isbn === bookIsbn).length,
+          });
+        } else {
+          setData({
+            books: books?.map((book) => ({
+              isValid: book._isValid,
+              owner: book._owner,
+              isbn: book._isbn,
+              title: book._title,
+              authorFirstName: book._authorFirstName,
+              authorLastName: book._authorLastName,
+            })),
+            total: books.length,
+          });
+        }
       } catch {
         setError(true);
         setErrorMessage("Error fetching books.");
@@ -129,7 +145,7 @@ export default function BookComponent({
 
       setLoading(false);
     }
-  }, [books]);
+  }, [books, bookIsbn]);
 
   React.useEffect(() => {
     if (address && !isConnecting && !isReconnecting && bookIsbns) {
