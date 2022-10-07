@@ -30,7 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="books" element={<Books />} />
           <Route path="my-books" element={<MyBooks />} />
-          <Route path="book/:bookId" element={<Book />} />
+          <Route path="book/:bookIsbn" element={<Book />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </RainbowKitProvider>
