@@ -149,7 +149,9 @@ export default function BookComponent({
           <Typography sx={{ textAlign: "center" }}>
             {error && <div>{error && errorMessage}</div>}
             {(data?.books?.length === 0 || !data) && !error && (
-              <div>No books</div>
+              <div>
+                {bookIsbn ? `No book found with ${bookIsbn} isbn` : "No books"}
+              </div>
             )}
           </Typography>
           <Grid
