@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
@@ -133,6 +134,9 @@ export default function Header() {
             ))}
           </Box>
 
+          <IconButton aria-label="add-book" sx={{ marginRight: "1rem" }}>
+            <LibraryAddIcon />
+          </IconButton>
           <Box sx={{ flexGrow: 0 }}>
             <ConnectButton
               chainStatus="none"
