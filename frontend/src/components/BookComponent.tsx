@@ -9,6 +9,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
@@ -19,6 +27,8 @@ import {
   useContractReads,
   useContractInfiniteReads,
   paginatedIndexesConfig,
+  usePrepareContractWrite,
+  useContractWrite,
 } from "wagmi";
 import {
   contractAdress,
@@ -127,6 +137,29 @@ export default function BookComponent({
     }
   }, [address, isConnecting, isReconnecting, bookIsbns]);
 
+  const { config: removeBookConfig } = usePrepareContractWrite({
+    ...libraryContract,
+    functionName: "removeBook",
+    args: removeBookIsbn,
+    enabled: Boolean(removeBookIsbn),
+  });
+  const { write: removeBookWrite } = useContractWrite(removeBookConfig);
+
+  async function removeBook(book: interfaces.Book) {
+    if (address === book.owner) {
+      setRemoveBookIsbn(book.isbn);
+      setOpenRemoveBook(true);
+    }
+  }
+
+  const handleCloseRemoveBookDialog = () => {
+    setOpenRemoveBook(false);
+  };
+
+  const handleClickRemoveBookDialog = () => {
+    removeBookWrite?.();
+  };
+
   return (
     <>
       {(isConnecting || isReconnecting || loading) && <Loader />}
@@ -144,7 +177,32 @@ export default function BookComponent({
             justifyContent: "center",
           }}
         >
-          <Typography sx={{ textAlign: "center" }}>
+          <Dialog
+            open={openRemoveBook}
+            onClose={handleCloseRemoveBookDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {` Do you want to remove book with the ${removeBookIsbn} isbn?`}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                This action is irreversible and completely remove the book. If
+                there are copies of the book, the contract will give an error.
+                Do you want to delete the copies and then remove the book?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClickRemoveBookDialog}>
+                Delete copies and remove book
+              </Button>
+              <Button onClick={handleCloseRemoveBookDialog} autoFocus>
+                Cancel
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Typography sx={{ textAlign: "center" }} component={"span"}>
             {error && <div>{error && errorMessage}</div>}
             {(data?.books?.length === 0 || !data) && !error && (
               <div>
@@ -162,6 +220,17 @@ export default function BookComponent({
             {data?.books.map((book) => {
               return (
                 <Grid xs={2} sm={4} md={4} key={book.isbn}>
+                  {address === book.owner && (
+                    <IconButton
+                      aria-label="delete"
+                      size="large"
+                      onClick={() => {
+                        removeBook(book);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
                   <Card variant="outlined">
                     <CardActionArea component={Link} to={`/book/${book.isbn}`}>
                       <CardMedia
