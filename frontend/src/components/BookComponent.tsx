@@ -55,16 +55,14 @@ export default function BookComponent({
   bookIsbn,
 }: interfaces.BookComponentProps) {
   const isMobile = useMediaQuery("(max-width:899px)");
+  const { isConnected, isConnecting, isReconnecting, address } = useAccount();
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [data, setData] = React.useState<interfaces.BookInterface>();
   const [contractRead, setContractRead] = React.useState(false);
-  const { isConnected, isConnecting, isReconnecting, address } = useAccount();
-
-  console.log("data", data);
-
-  // Create get a book for the book page function
+  const [removeBookIsbn, setRemoveBookIsbn] = React.useState("");
+  const [openRemoveBook, setOpenRemoveBook] = React.useState(false);
 
   const { data: bookIsbnsLength } = useContractRead({
     addressOrName: contractAdress,
