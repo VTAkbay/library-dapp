@@ -8,7 +8,7 @@ contract Library {
     using BookUtils for Book;
     using StringUtils for string;
 
-    address owner;
+    address public owner;
 
     constructor() {
         owner = msg.sender;
