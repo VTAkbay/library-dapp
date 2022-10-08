@@ -1,5 +1,7 @@
 import React from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
+  Alert,
   Card,
   CardActionArea,
   CardActions,
@@ -8,7 +10,12 @@ import {
   Container,
   Typography,
   useMediaQuery,
+  Box,
+  Snackbar,
 } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import CloseIcon from "@mui/icons-material/Close";
+import { LoadingButton } from "@mui/lab";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -215,8 +222,8 @@ export default function BookComponent({
         <Container
           maxWidth="lg"
           sx={{
-            marginTop: "2rem",
-            marginBottom: "2rem",
+            marginTop: "1rem",
+            marginBottom: "1rem",
             justifyContent: "center",
           }}
         >
