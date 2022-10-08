@@ -78,7 +78,11 @@ export default function BookComponent({
   const [data, setData] = React.useState<interfaces.BookInterface>();
   const [contractRead, setContractRead] = React.useState(false);
   const [removeBookIsbn, setRemoveBookIsbn] = React.useState("");
-  const [openRemoveBook, setOpenRemoveBook] = React.useState(false);
+  const [openRemoveBookDialog, setOpenRemoveBookDialog] = React.useState(false);
+  const [confirming, setConfirming] = React.useState(false);
+  const [removing, setRemoving] = React.useState(false);
+  const [removingError, setRemovingError] = React.useState(false);
+  const [removingErrorMessage, setRemovingErrorMessage] = React.useState("");
 
   const { data: bookIsbnsLength } = useContractRead({
     addressOrName: contractAdress,
@@ -190,16 +194,21 @@ export default function BookComponent({
   async function removeBook(book: interfaces.Book) {
     if (address === book.owner) {
       setRemoveBookIsbn(book.isbn);
-      setOpenRemoveBook(true);
+      setOpenRemoveBookDialog(true);
     }
   }
 
   const handleCloseRemoveBookDialog = () => {
-    setOpenRemoveBook(false);
+    setOpenRemoveBookDialog(false);
   };
 
   const handleClickRemoveBookDialog = () => {
-    removeBookWrite?.();
+    setRemoving(true);
+    removeBookWrite();
+  };
+
+  const handleErrorBar = () => {
+    setRemovingError(false);
   };
 
   return (
@@ -228,7 +237,7 @@ export default function BookComponent({
           }}
         >
           <Dialog
-            open={openRemoveBook}
+            open={openRemoveBookDialog}
             onClose={handleCloseRemoveBookDialog}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
@@ -244,14 +253,62 @@ export default function BookComponent({
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClickRemoveBookDialog}>
+              <LoadingButton
+                onClick={handleClickRemoveBookDialog}
+                endIcon={<DeleteForeverIcon />}
+                loadingPosition="end"
+                loading={removing}
+              >
                 Delete copies and remove book
-              </Button>
-              <Button onClick={handleCloseRemoveBookDialog} autoFocus>
+              </LoadingButton>
+              <Button
+                onClick={handleCloseRemoveBookDialog}
+                variant="outlined"
+                autoFocus
+              >
                 Cancel
               </Button>
             </DialogActions>
           </Dialog>
+
+          <Snackbar
+            open={removingError}
+            autoHideDuration={10000}
+            onClose={handleErrorBar}
+          >
+            <Alert
+              action={
+                <>
+                  <Button
+                    onClick={handleErrorBar}
+                    type="submit"
+                    color="inherit"
+                    size="small"
+                  >
+                    Retry
+                  </Button>
+                  <IconButton
+                    sx={{ marginLeft: "1rem", padding: "4px" }}
+                    aria-label="delete"
+                    onClick={handleErrorBar}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </>
+              }
+              severity="warning"
+              sx={{ width: "100%" }}
+            >
+              {removingErrorMessage}!
+            </Alert>
+          </Snackbar>
+
+          <Snackbar open={confirming}>
+            <Alert severity="success" sx={{ width: "100%" }}>
+              Removing the book, please wait
+            </Alert>
+          </Snackbar>
+
           <Typography sx={{ textAlign: "center" }} component={"span"}>
             {error && <div>{error && errorMessage}</div>}
             {(data?.books?.length === 0 || !data) && !error && (
