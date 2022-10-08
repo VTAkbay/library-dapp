@@ -22,3 +22,8 @@ export const libraryContract = {
   addressOrName: contractAdress,
   contractInterface: contractInterface,
 };
+
+export const headerPages = [
+  { key: 0, title: "Books", route: "books" },
+  { key: 1, title: "My Books", route: "my-books" },
+];
