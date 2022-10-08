@@ -200,7 +200,15 @@ export default function BookComponent({
       {(isConnecting || isReconnecting || loading) && <Loader />}
 
       {!isConnecting && !isReconnecting && !isConnected && !loading && (
-        <div>Please connect wallet.</div>
+        <Box display="flex" justifyContent="center" marginTop="2rem">
+          <ConnectButton
+            chainStatus="none"
+            accountStatus={{
+              smallScreen: "avatar",
+              largeScreen: "full",
+            }}
+          />
+        </Box>
       )}
 
       {!isConnecting && !isReconnecting && isConnected && !loading && (
