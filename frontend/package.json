@@ -6,7 +6,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@hookform/resolvers": "^2.9.8",
     "@mui/icons-material": "^5.10.6",
+    "@mui/lab": "^5.0.0-alpha.102",
     "@mui/material": "^5.10.7",
     "@rainbow-me/rainbowkit": "^0.7.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -20,12 +22,14 @@
     "ethers": "^5.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.37.0",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.8.4",
     "wagmi": "^0.6.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
