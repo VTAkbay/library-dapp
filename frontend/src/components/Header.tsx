@@ -13,19 +13,17 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-
-const pages = [
-  { key: 0, title: "Books", route: "books" },
-  { key: 1, title: "My Books", route: "my-books" },
-];
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { headerPages } from "../lib/utils";
+import CreateBookModal from "./CreateBookModal";
 
 export default function Header() {
   const navigate = useNavigate();
 
+  const [openCreateBookModal, setOpenCreateBookModal] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -37,6 +35,11 @@ export default function Header() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
+        <CreateBookModal
+          open={openCreateBookModal}
+          handleClose={() => setOpenCreateBookModal(false)}
+        />
+
         <Toolbar disableGutters>
           {/* Mobile */}
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -134,7 +137,11 @@ export default function Header() {
             ))}
           </Box>
 
-          <IconButton aria-label="add-book" sx={{ marginRight: "1rem" }}>
+          <IconButton
+            aria-label="add-book"
+            sx={{ marginRight: "1rem" }}
+            onClick={() => setOpenCreateBookModal(true)}
+          >
             <LibraryAddIcon />
           </IconButton>
           <Box sx={{ flexGrow: 0 }}>
