@@ -27,7 +27,6 @@ import {
   useContractReads,
   useContractInfiniteReads,
   paginatedIndexesConfig,
-  usePrepareContractWrite,
   useContractWrite,
 } from "wagmi";
 import {
@@ -153,13 +152,33 @@ export default function BookComponent({
     }
   }, [address, isConnecting, isReconnecting, bookIsbns]);
 
-  const { config: removeBookConfig } = usePrepareContractWrite({
-    ...libraryContract,
+  const { writeAsync: removeBookWrite } = useContractWrite({
+    mode: "recklesslyUnprepared",
+    addressOrName: contractAdress,
+    contractInterface: contractInterface,
     functionName: "removeBook",
     args: removeBookIsbn,
-    enabled: Boolean(removeBookIsbn),
+    async onSettled(data, error) {
+      if (data) {
+        setRemoving(true);
+
+        const transaction = await data?.wait();
+
+        if (transaction.confirmations >= 1) {
+          setConfirming(true);
+          setOpenRemoveBookDialog(false);
+        }
+      }
+
+      if (error?.name && error.message) {
+        setOpenRemoveBookDialog(false);
+        setRemovingError(true);
+        setRemovingErrorMessage(error.message);
+      }
+
+      setRemoving(false);
+    },
   });
-  const { write: removeBookWrite } = useContractWrite(removeBookConfig);
 
   async function removeBook(book: interfaces.Book) {
     if (address === book.owner) {
