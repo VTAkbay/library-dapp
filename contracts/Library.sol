@@ -21,7 +21,7 @@ contract Library {
 
     struct Copy {
         bool _isValid;
-        address holder;
+        address _holder;
     }
 
     mapping(string => Book) public bookByIsbn;
@@ -85,7 +85,7 @@ contract Library {
         require(book._isValid, "Invalid book");
         Copy storage copy = copies[copyId];
         require(copy._isValid, "Invalid copy");
-        require(copy.holder == address(0), "Copy is held");
+        require(copy._holder == address(0), "Copy is held");
         copy._isValid = false;
         book.removeCopy(copyId);
         delete copies[copyId];
@@ -109,8 +109,8 @@ contract Library {
         require(book._isValid, "Invalid book");
         Copy storage copy = copies[copyId];
         require(copy._isValid, "Invalid copy");
-        require(copy.holder == address(0), "Already held");
-        copy.holder = holder;
+        require(copy._holder == address(0), "Already held");
+        copy._holder = holder;
     }
 
     function returnCopy(
@@ -123,7 +123,7 @@ contract Library {
         require(book._isValid, "Invalid book");
         Copy storage copy = copies[copyId];
         require(copy._isValid, "Invalid copy");
-        require(copy.holder == holder, "Holder mismatches");
-        copy.holder = address(0);
+        require(copy._holder == holder, "Holder mismatches");
+        copy._holder = address(0);
     }
 }
