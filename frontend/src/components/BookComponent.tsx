@@ -24,6 +24,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
@@ -297,10 +298,13 @@ export default function BookComponent({
               {` Do you want to remove book with the ${removeBookIsbn} isbn?`}
             </DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                This action is irreversible and completely remove the book. If
-                there are copies of the book, the contract will give an error.
-                Do you want to delete the copies and then remove the book?
+              <DialogContentText
+                id="alert-dialog-description"
+                sx={{ color: isHasCopy ? "" : "red" }}
+              >
+                {isHasCopy
+                  ? "This action is irreversible and completely remove the book. Are you sure want to remove the book?"
+                  : "Can not remove the book because there is copies of book, delete copies first."}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -309,8 +313,10 @@ export default function BookComponent({
                 endIcon={<DeleteForeverIcon />}
                 loadingPosition="end"
                 loading={removing}
+                disabled={!isHasCopy}
+                sx={{ color: "red" }}
               >
-                Delete copies and remove book
+                {isHasCopy ? "Remove the book" : "Delete copies first"}
               </LoadingButton>
               <Button
                 onClick={handleCloseRemoveBookDialog}
