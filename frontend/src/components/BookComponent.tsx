@@ -121,6 +121,16 @@ export default function BookComponent({
     enabled: Boolean(bookIsbns),
   });
 
+  const { data: copyIdsOfBooks } = useContractReads({
+    contracts: bookIsbns!.pages[0].map((book: any) => ({
+      addressOrName: contractAdress,
+      contractInterface: contractInterface,
+      functionName: "getCopyIdsByIsbn",
+      args: [book],
+    })),
+    enabled: Boolean(bookIsbns),
+  });
+
   React.useEffect(() => {
     if (books) {
       try {
