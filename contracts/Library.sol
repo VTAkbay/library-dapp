@@ -91,6 +91,14 @@ contract Library {
         delete copies[copyId];
     }
 
+    function getCopyIdsByIsbn(string memory isbn)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return bookByIsbn[isbn].copyIds;
+    }
+
     function issueCopy(
         string memory isbn,
         uint256 copyId,
