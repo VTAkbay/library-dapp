@@ -43,10 +43,6 @@ import {
 } from "../lib/utils";
 
 declare module interfaces {
-  export interface Copy {
-    id: string;
-  }
-
   export interface Book {
     isValid: boolean;
     owner: string;
@@ -54,7 +50,7 @@ declare module interfaces {
     title: string;
     authorFirstName: string;
     authorLastName: string;
-    copies?: Copy[];
+    copyIds: number[];
   }
 
   export interface BookInterface {
