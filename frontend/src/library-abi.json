@@ -1,31 +1,11 @@
 [
-  {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "title",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "authorFirstName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "authorLastName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "isbn",
-        "type": "string"
-      }
+      { "internalType": "string", "name": "title", "type": "string" },
+      { "internalType": "string", "name": "authorFirstName", "type": "string" },
+      { "internalType": "string", "name": "authorLastName", "type": "string" },
+      { "internalType": "string", "name": "isbn", "type": "string" }
     ],
     "name": "addBook",
     "outputs": [],
@@ -33,117 +13,51 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "isbn",
-        "type": "string"
-      }
-    ],
+    "inputs": [{ "internalType": "string", "name": "isbn", "type": "string" }],
     "name": "addCopy",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
+    "inputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "name": "bookByIsbn",
     "outputs": [
-      {
-        "internalType": "bool",
-        "name": "_isValid",
-        "type": "bool"
-      },
-      {
-        "internalType": "string",
-        "name": "_isbn",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "_title",
-        "type": "string"
-      },
+      { "internalType": "bool", "name": "_isValid", "type": "bool" },
+      { "internalType": "string", "name": "_isbn", "type": "string" },
+      { "internalType": "address", "name": "_owner", "type": "address" },
+      { "internalType": "string", "name": "_title", "type": "string" },
       {
         "internalType": "string",
         "name": "_authorFirstName",
         "type": "string"
       },
-      {
-        "internalType": "string",
-        "name": "_authorLastName",
-        "type": "string"
-      }
+      { "internalType": "string", "name": "_authorLastName", "type": "string" }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "bookIsbns",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "copies",
     "outputs": [
-      {
-        "internalType": "bool",
-        "name": "_isValid",
-        "type": "bool"
-      },
-      {
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      }
+      { "internalType": "bool", "name": "_isValid", "type": "bool" },
+      { "internalType": "address", "name": "_holder", "type": "address" }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "isbn",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "copyId",
-        "type": "uint256"
-      }
+      { "internalType": "string", "name": "isbn", "type": "string" },
+      { "internalType": "uint256", "name": "copyId", "type": "uint256" }
     ],
     "name": "deleteCopy",
     "outputs": [],
@@ -164,22 +78,19 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "string", "name": "isbn", "type": "string" }],
+    "name": "getCopyIdsByIsbn",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "isbn",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "copyId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      }
+      { "internalType": "string", "name": "isbn", "type": "string" },
+      { "internalType": "uint256", "name": "copyId", "type": "uint256" },
+      { "internalType": "address", "name": "holder", "type": "address" }
     ],
     "name": "issueCopy",
     "outputs": [],
@@ -187,13 +98,14 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "isbn",
-        "type": "string"
-      }
-    ],
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "string", "name": "isbn", "type": "string" }],
     "name": "removeBook",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -201,21 +113,9 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "string",
-        "name": "isbn",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "copyId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      }
+      { "internalType": "string", "name": "isbn", "type": "string" },
+      { "internalType": "uint256", "name": "copyId", "type": "uint256" },
+      { "internalType": "address", "name": "holder", "type": "address" }
     ],
     "name": "returnCopy",
     "outputs": [],
