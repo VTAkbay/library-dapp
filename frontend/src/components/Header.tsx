@@ -142,7 +142,7 @@ export default function Header() {
             sx={{ marginRight: "1rem" }}
             onClick={() => setOpenCreateBookModal(true)}
           >
-            <LibraryAddIcon />
+            <LibraryAddIcon sx={{ color: "greenyellow" }} />
           </IconButton>
           <Box sx={{ flexGrow: 0 }}>
             <ConnectButton
