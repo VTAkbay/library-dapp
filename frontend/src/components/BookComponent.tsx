@@ -132,6 +132,10 @@ export default function BookComponent({
   });
 
   React.useEffect(() => {
+    if (Number(bookIsbnsLength?._hex) === 0) {
+      setLoading(false);
+    }
+
     if (books) {
       try {
         if (bookIsbn) {
