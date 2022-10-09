@@ -61,13 +61,13 @@ export default function CreateBookModal({
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required("*required")
-      .min(10, "Title must be at least 10 characters"),
+      .min(5, "Title must be at least 5 characters"),
     authorFirstName: Yup.string()
       .required("*required")
-      .min(3, "Author First Name must be at least 3 characters"),
+      .min(2, "Author First Name must be at least 2 characters"),
     authorLastName: Yup.string()
       .required("*required")
-      .min(3, "Author Last Name must be at least 2 characters"),
+      .min(2, "Author Last Name must be at least 2 characters"),
     isbn: Yup.string()
       .required("*required")
       .min(10, "Isbn must be at least 10 characters"),
