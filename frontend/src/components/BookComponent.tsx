@@ -127,26 +127,32 @@ export default function BookComponent({
         if (bookIsbn) {
           setData({
             books: books
-              ?.map((book) => ({
+              ?.map((book, index) => ({
                 isValid: book._isValid,
                 owner: book._owner,
                 isbn: book._isbn,
                 title: book._title,
                 authorFirstName: book._authorFirstName,
                 authorLastName: book._authorLastName,
+                copyIds: copyIdsOfBooks![index].map((copyId) => {
+                  return Number(copyId._hex);
+                }),
               }))
               .filter((book) => book.isbn === bookIsbn),
             total: books.filter((book) => book._isbn === bookIsbn).length,
           });
         } else {
           setData({
-            books: books?.map((book) => ({
+            books: books?.map((book, index) => ({
               isValid: book._isValid,
               owner: book._owner,
               isbn: book._isbn,
               title: book._title,
               authorFirstName: book._authorFirstName,
               authorLastName: book._authorLastName,
+              copyIds: copyIdsOfBooks![index].map((copyId) => {
+                return Number(copyId._hex);
+              }),
             })),
             total: books.length,
           });
@@ -158,6 +164,7 @@ export default function BookComponent({
 
       setLoading(false);
     }
+    // eslint-disable-next-line
   }, [books, bookIsbn]);
 
   React.useEffect(() => {
@@ -438,6 +445,12 @@ export default function BookComponent({
                           color="text.secondary"
                         >
                           {book.authorFirstName + " " + book.authorLastName}
+                        </Typography>
+                        <Typography
+                          variant={isMobile ? "body2" : "body1"}
+                          color="text.secondary"
+                        >
+                          {"Total copy: " + book.copyIds.length}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
