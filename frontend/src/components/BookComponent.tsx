@@ -419,6 +419,26 @@ export default function BookComponent({
             {data?.books.map((book) => {
               return (
                 <Grid xs={2} sm={4} md={4} key={book.isbn}>
+                  <Card variant="outlined">
+                    <CardActionArea component={Link} to={`/book/${book.isbn}`}>
+                      {address === book.owner && (
+                        <IconButton
+                          aria-label="delete"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            event.preventDefault();
+                            removeBook(book);
+                          }}
+                          sx={{
+                            margin: "0.5rem",
+                            position: "absolute",
+                          }}
+                        >
+                          <DeleteIcon
+                            sx={{ color: "red", fontSize: "1.8rem" }}
+                          />
+                        </IconButton>
+                      )}
 
                       {address === book.owner && (
                         <IconButton
