@@ -74,6 +74,13 @@ export default function BookComponent({
   const [data, setData] = React.useState<interfaces.BookInterface>();
   const [contractRead, setContractRead] = React.useState(false);
   const [removeBookIsbn, setRemoveBookIsbn] = React.useState("");
+  const [addCopyIsbn, setAddCopyIsbn] = React.useState("");
+  const [addingCopy, setAddingCopy] = React.useState(false);
+  const isHasCopy = Boolean(
+    data?.books.filter(
+      (book) => book.isbn === removeBookIsbn && book.copyIds.length === 0
+    ).length
+  );
   const [openRemoveBookDialog, setOpenRemoveBookDialog] = React.useState(false);
   const [confirming, setConfirming] = React.useState(false);
   const [removing, setRemoving] = React.useState(false);
@@ -207,6 +214,33 @@ export default function BookComponent({
     setRemovingError(false);
   };
 
+  const { writeAsync: addCopyToBookWrite } = useContractWrite({
+    mode: "recklesslyUnprepared",
+    addressOrName: contractAdress,
+    contractInterface: contractInterface,
+    functionName: "addCopy",
+    args: addCopyIsbn,
+    async onSettled(data, error) {
+      if (data) {
+        setAddingCopy(true);
+
+        const transaction = await data?.wait();
+
+        if (transaction.confirmations >= 1) {
+          setAddingCopy(false);
+          setAddCopyIsbn("");
+        }
+      }
+
+      setAddingCopy(false);
+      setAddCopyIsbn("");
+    },
+  });
+
+  const addCopyToBook = (book: interfaces.Book) => {
+    setAddCopyIsbn(book.isbn);
+  };
+
   return (
     <>
       {(isConnecting || isReconnecting || loading) && <Loader />}
@@ -305,6 +339,41 @@ export default function BookComponent({
             </Alert>
           </Snackbar>
 
+          <Dialog
+            open={Boolean(addCopyIsbn)}
+            onClose={() => {
+              setAddCopyIsbn("");
+            }}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {` Do you want to add a copy to book with the ${addCopyIsbn} isbn?`}
+            </DialogTitle>
+            <DialogActions>
+              <LoadingButton
+                onClick={() => {
+                  addCopyToBookWrite();
+                }}
+                endIcon={<AddCircleIcon />}
+                loadingPosition="end"
+                loading={addingCopy}
+                sx={{ color: "green" }}
+              >
+                Add
+              </LoadingButton>
+              <Button
+                onClick={() => {
+                  setAddCopyIsbn("");
+                }}
+                variant="outlined"
+                autoFocus
+              >
+                Cancel
+              </Button>
+            </DialogActions>
+          </Dialog>
+
           <Typography sx={{ textAlign: "center" }} component={"span"}>
             {error && <div>{error && errorMessage}</div>}
             {(data?.books?.length === 0 || !data) && !error && (
@@ -323,19 +392,27 @@ export default function BookComponent({
             {data?.books.map((book) => {
               return (
                 <Grid xs={2} sm={4} md={4} key={book.isbn}>
-                  {address === book.owner && (
-                    <IconButton
-                      aria-label="delete"
-                      size="large"
-                      onClick={() => {
-                        removeBook(book);
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
-                  <Card variant="outlined">
-                    <CardActionArea component={Link} to={`/book/${book.isbn}`}>
+
+                      {address === book.owner && (
+                        <IconButton
+                          aria-label="add-copy"
+                          onClick={(event) => {
+                            addCopyToBook(book);
+                            event.stopPropagation();
+                            event.preventDefault();
+                          }}
+                          sx={{
+                            margin: "0.5rem",
+                            right: "0px",
+                            position: "absolute",
+                          }}
+                        >
+                          <AddCircleIcon
+                            sx={{ color: "greenyellow", fontSize: "1.8rem" }}
+                          />
+                        </IconButton>
+                      )}
+
                       <CardMedia
                         component="img"
                         height={isMobile ? "80" : "200"}
