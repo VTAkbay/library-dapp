@@ -13,11 +13,18 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { headerPages } from "../lib/utils";
+import { headerPages, libraryContract } from "../lib/utils";
 import CreateBookModal from "./CreateBookModal";
+import { useAccount, useContractRead } from "wagmi";
 
 export default function Header() {
+  const { address } = useAccount();
   const navigate = useNavigate();
+
+  const { data } = useContractRead({
+    ...libraryContract,
+    functionName: "owner",
+  });
 
   const [openCreateBookModal, setOpenCreateBookModal] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -137,13 +144,15 @@ export default function Header() {
             ))}
           </Box>
 
-          <IconButton
-            aria-label="add-book"
-            sx={{ marginRight: "1rem" }}
-            onClick={() => setOpenCreateBookModal(true)}
-          >
-            <LibraryAddIcon sx={{ color: "greenyellow" }} />
-          </IconButton>
+          {address === data && (
+            <IconButton
+              aria-label="add-book"
+              sx={{ marginRight: "1rem" }}
+              onClick={() => setOpenCreateBookModal(true)}
+            >
+              <LibraryAddIcon sx={{ color: "greenyellow" }} />
+            </IconButton>
+          )}
           <Box sx={{ flexGrow: 0 }}>
             <ConnectButton
               chainStatus="none"
