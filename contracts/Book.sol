@@ -5,7 +5,6 @@ pragma solidity ^0.8.17;
 struct Book {
     bool _isValid;
     string _isbn;
-    address _owner;
     string _title;
     string _authorFirstName;
     string _authorLastName;

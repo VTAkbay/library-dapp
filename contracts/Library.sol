@@ -47,7 +47,6 @@ contract Library {
         Book storage book = bookByIsbn[isbn];
         book._isValid = true;
         book._isbn = isbn;
-        book._owner = msg.sender;
         book._title = title;
         book._authorFirstName = authorFirstName;
         book._authorLastName = authorLastName;

@@ -88,6 +88,11 @@ export default function BookComponent({
   const [removingError, setRemovingError] = React.useState(false);
   const [removingErrorMessage, setRemovingErrorMessage] = React.useState("");
 
+  const { data: owner } = useContractRead({
+    ...libraryContract,
+    functionName: "owner",
+  });
+
   const { data: bookIsbnsLength } = useContractRead({
     addressOrName: contractAdress,
     contractInterface: contractInterface,
@@ -217,7 +222,7 @@ export default function BookComponent({
   });
 
   async function removeBook(book: interfaces.Book) {
-    if (address === book.owner) {
+    if (address === owner) {
       setRemoveBookIsbn(book.isbn);
       setOpenRemoveBookDialog(true);
     }
@@ -421,7 +426,7 @@ export default function BookComponent({
                 <Grid xs={2} sm={4} md={4} key={book.isbn}>
                   <Card variant="outlined">
                     <CardActionArea component={Link} to={`/book/${book.isbn}`}>
-                      {address === book.owner && (
+                      {address === String(owner) && (
                         <IconButton
                           aria-label="delete"
                           onClick={(event) => {
@@ -440,7 +445,7 @@ export default function BookComponent({
                         </IconButton>
                       )}
 
-                      {address === book.owner && (
+                      {address === String(owner) && (
                         <IconButton
                           aria-label="add-copy"
                           onClick={(event) => {
