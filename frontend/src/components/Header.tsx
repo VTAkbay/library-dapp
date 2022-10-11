@@ -21,7 +21,7 @@ export default function Header() {
   const { address } = useAccount();
   const navigate = useNavigate();
 
-  const { data } = useContractRead({
+  const { data: owner } = useContractRead({
     ...libraryContract,
     functionName: "owner",
   });
@@ -144,7 +144,7 @@ export default function Header() {
             ))}
           </Box>
 
-          {address === data && (
+          {address === owner && (
             <IconButton
               aria-label="add-book"
               sx={{ marginRight: "1rem" }}
