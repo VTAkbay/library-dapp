@@ -54,7 +54,9 @@ export default function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={() => {
+              navigate("/");
+            }}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -63,6 +65,7 @@ export default function Header() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Library Dapp
@@ -115,7 +118,9 @@ export default function Header() {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            onClick={() => {
+              navigate("/");
+            }}
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -125,6 +130,7 @@ export default function Header() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Library Dapp
