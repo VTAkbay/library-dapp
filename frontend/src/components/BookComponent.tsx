@@ -44,14 +44,17 @@ import {
 } from "../lib/utils";
 
 declare module interfaces {
+  export interface Copy {
+    id: number;
+    holder: string;
+  }
   export interface Book {
     isValid: boolean;
-    owner: string;
     isbn: string;
     title: string;
     authorFirstName: string;
     authorLastName: string;
-    copyIds: number[];
+    copyIds: Copy[];
   }
 
   export interface BookInterface {
@@ -91,6 +94,7 @@ export default function BookComponent({
   const { data: owner } = useContractRead({
     ...libraryContract,
     functionName: "owner",
+    enabled: contractRead,
   });
 
   const { data: bookIsbnsLength } = useContractRead({
@@ -114,7 +118,7 @@ export default function BookComponent({
         direction: "increment",
       }
     ),
-    enabled: Boolean(bookIsbnsLength),
+    enabled: Boolean(bookIsbnsLength?._hex),
   });
 
   const { data: books } = useContractReads({
@@ -124,7 +128,7 @@ export default function BookComponent({
       functionName: "bookByIsbn",
       args: [book],
     })),
-    enabled: Boolean(bookIsbns),
+    enabled: Boolean(bookIsbns?.pages[0]),
   });
 
   const { data: copyIdsOfBooks } = useContractReads({
@@ -134,20 +138,49 @@ export default function BookComponent({
       functionName: "getCopyIdsByIsbn",
       args: [book],
     })),
-    enabled: Boolean(bookIsbns),
+    enabled: Boolean(bookIsbns?.pages[0]),
+    async onSettled(data, error) {
+      if (data) {
+        console.log("copyIdsOfBooks", data);
+      }
+
+      if (error?.name && error.message) {
+      }
+    },
   });
 
   React.useEffect(() => {
-    if (Number(bookIsbnsLength?._hex) === 0) {
-      setLoading(false);
-    }
+    if (address && !isConnecting && !isReconnecting) {
+      if (Number(bookIsbnsLength?._hex) === 0) {
+        setLoading(false);
+        return;
+      }
 
-    if (books) {
-      try {
-        if (bookIsbn) {
-          setData({
-            books: books
-              ?.map((book, index) => ({
+      if (books) {
+        try {
+          if (bookIsbn) {
+            setData({
+              books: books
+                ?.map((book, index) => ({
+                  isValid: book._isValid,
+                  owner: book._owner,
+                  isbn: book._isbn,
+                  title: book._title,
+                  authorFirstName: book._authorFirstName,
+                  authorLastName: book._authorLastName,
+                  copyIds: copyIdsOfBooks![index].map((copyId) => {
+                    return {
+                      id: Number(copyId._hex),
+                      holder: "test",
+                    };
+                  }),
+                }))
+                .filter((book) => book.isbn === bookIsbn),
+              total: books.filter((book) => book._isbn === bookIsbn).length,
+            });
+          } else {
+            setData({
+              books: books?.map((book, index) => ({
                 isValid: book._isValid,
                 owner: book._owner,
                 isbn: book._isbn,
@@ -155,37 +188,27 @@ export default function BookComponent({
                 authorFirstName: book._authorFirstName,
                 authorLastName: book._authorLastName,
                 copyIds: copyIdsOfBooks![index].map((copyId) => {
-                  return Number(copyId._hex);
+                  return {
+                    id: Number(copyId._hex),
+                    holder: "test",
+                  };
                 }),
-              }))
-              .filter((book) => book.isbn === bookIsbn),
-            total: books.filter((book) => book._isbn === bookIsbn).length,
-          });
-        } else {
-          setData({
-            books: books?.map((book, index) => ({
-              isValid: book._isValid,
-              owner: book._owner,
-              isbn: book._isbn,
-              title: book._title,
-              authorFirstName: book._authorFirstName,
-              authorLastName: book._authorLastName,
-              copyIds: copyIdsOfBooks![index].map((copyId) => {
-                return Number(copyId._hex);
-              }),
-            })),
-            total: books.length,
-          });
+              })),
+              total: books.length,
+            });
+          }
+        } catch {
+          setError(true);
+          setErrorMessage("Error fetching books.");
         }
-      } catch {
-        setError(true);
-        setErrorMessage("Error fetching books.");
-      }
 
+        setLoading(false);
+      }
+    } else if (!address && !isConnecting && !isReconnecting) {
       setLoading(false);
     }
     // eslint-disable-next-line
-  }, [books, bookIsbn]);
+  }, [books, bookIsbn, address, isConnecting, isReconnecting]);
 
   React.useEffect(() => {
     if (address && !isConnecting && !isReconnecting && bookIsbns) {
