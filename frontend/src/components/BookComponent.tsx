@@ -100,51 +100,72 @@ export default function BookComponent({
     contractInterface: contractInterface,
     functionName: "getBookIsbnsLength",
     enabled: contractRead,
+    watch: true,
   });
 
-  const { data: bookIsbns } = useContractInfiniteReads({
-    cacheKey: "library-dapp",
-    ...paginatedIndexesConfig(
-      (index) => ({
-        ...libraryContract,
-        functionName: "bookIsbns",
-        args: [index],
-      }),
-      {
-        start: 0,
-        perPage: Number(bookIsbnsLength?._hex),
-        direction: "increment",
-      }
-    ),
+  const { data: bookIsbns } = useContractReads({
+    contracts: bookIsbnsLength?._hex
+      ? Array(Number(bookIsbnsLength._hex))
+          .fill(0)
+          .map((i, index) => ({
+            addressOrName: contractAdress,
+            contractInterface: contractInterface,
+            functionName: "bookIsbns",
+            args: [index],
+          }))
+      : [
+          {
+            addressOrName: contractAdress,
+            contractInterface: contractInterface,
+            functionName: "bookIsbns",
+            args: [0],
+          },
+        ],
     enabled: Boolean(bookIsbnsLength?._hex),
+    watch: true,
+    allowFailure: true,
   });
 
   const { data: books } = useContractReads({
-    contracts: bookIsbns!.pages[0].map((book: any) => ({
-      addressOrName: contractAdress,
-      contractInterface: contractInterface,
-      functionName: "bookByIsbn",
-      args: [book],
-    })),
-    enabled: Boolean(bookIsbns?.pages[0]),
+    contracts: bookIsbns
+      ? bookIsbns.map((book: any) => ({
+          addressOrName: contractAdress,
+          contractInterface: contractInterface,
+          functionName: "bookByIsbn",
+          args: [book],
+        }))
+      : [
+          {
+            addressOrName: contractAdress,
+            contractInterface: contractInterface,
+            functionName: "bookByIsbn",
+            args: [" "],
+          },
+        ],
+    enabled: Boolean(bookIsbns),
+    watch: true,
+    allowFailure: true,
   });
 
   const { data: copyIdsOfBooks } = useContractReads({
-    contracts: bookIsbns!.pages[0].map((book: any) => ({
-      addressOrName: contractAdress,
-      contractInterface: contractInterface,
-      functionName: "getCopyIdsByIsbn",
-      args: [book],
-    })),
-    enabled: Boolean(bookIsbns?.pages[0]),
-    async onSettled(data, error) {
-      if (data) {
-        console.log("copyIdsOfBooks", data);
-      }
-
-      if (error?.name && error.message) {
-      }
-    },
+    contracts: bookIsbns
+      ? bookIsbns.map((book: any) => ({
+          addressOrName: contractAdress,
+          contractInterface: contractInterface,
+          functionName: "getCopyIdsByIsbn",
+          args: [book],
+        }))
+      : [
+          {
+            addressOrName: contractAdress,
+            contractInterface: contractInterface,
+            functionName: "getCopyIdsByIsbn",
+            args: [" "],
+          },
+        ],
+    enabled: Boolean(bookIsbns),
+    watch: true,
+    allowFailure: true,
   });
 
   React.useEffect(() => {
