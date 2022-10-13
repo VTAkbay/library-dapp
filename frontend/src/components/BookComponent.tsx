@@ -33,8 +33,6 @@ import {
   useAccount,
   useContractRead,
   useContractReads,
-  useContractInfiniteReads,
-  paginatedIndexesConfig,
   useContractWrite,
 } from "wagmi";
 import {
@@ -282,6 +280,10 @@ export default function BookComponent({
         }
       }
 
+      if (error?.name && error.message) {
+        // error handling for add copy
+      }
+
       setAddingCopy(false);
       setAddCopyIsbn("");
     },
@@ -390,7 +392,7 @@ export default function BookComponent({
 
           <Snackbar open={confirming}>
             <Alert severity="success" sx={{ width: "100%" }}>
-              Removing the book, please wait
+              Removing the book, please wait!
             </Alert>
           </Snackbar>
 
