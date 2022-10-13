@@ -19,7 +19,6 @@ import { libraryContract } from "../lib/utils";
 import { LoadingButton } from "@mui/lab";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute" as "absolute",
@@ -48,7 +47,6 @@ export default function CreateBookModal({
   open,
   handleClose,
 }: CreateBookModalProps) {
-  const navigate = useNavigate();
   const [adding, setAdding] = React.useState(false);
   const [addingError, setAddingError] = React.useState(false);
   const [addingErrorMessage, setAddingErrorMessage] = React.useState("");
@@ -80,12 +78,13 @@ export default function CreateBookModal({
     async onSettled(data, error) {
       if (data) {
         setConfirming(true);
+        handleClose();
+        setAdding(false);
 
         const transaction = await data?.wait();
 
         if (transaction.confirmations >= 1) {
           setConfirming(false);
-          navigate(`/books`);
         }
       }
 
@@ -93,8 +92,6 @@ export default function CreateBookModal({
         setAddingError(true);
         setAddingErrorMessage(error.message);
       }
-
-      setAdding(false);
     },
   });
 
