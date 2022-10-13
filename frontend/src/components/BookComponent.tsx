@@ -430,7 +430,7 @@ export default function BookComponent({
           </Dialog>
 
           <Typography sx={{ textAlign: "center" }} component={"span"}>
-            {error && <div>{error && errorMessage}</div>}
+            {error && !data?.books && <div>{error && errorMessage}</div>}
             {(data?.books?.length === 0 || !data) && !error && (
               <div>
                 {bookIsbn ? `No book found with ${bookIsbn} isbn` : "No books"}
