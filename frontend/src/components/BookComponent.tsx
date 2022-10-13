@@ -221,25 +221,28 @@ export default function BookComponent({
     functionName: "removeBook",
     args: removeBookIsbn,
     async onSettled(data, error) {
+      setRemoving(false);
+
       if (data) {
-        setRemoving(true);
+        setConfirming(true);
+        setOpenRemoveBookDialog(false);
 
         const transaction = await data?.wait();
 
         if (transaction.confirmations >= 1) {
-          setConfirming(true);
-          setOpenRemoveBookDialog(false);
+          setConfirming(false);
         }
       }
 
       if (error?.name && error.message) {
-        setOpenRemoveBookDialog(false);
-        setRemovingError(true);
-        setRemovingErrorMessage(error.message);
+        if (!String(error).startsWith("Error: user rejected transaction")) {
+          setOpenRemoveBookDialog(false);
+          setRemovingError(true);
+          setRemovingErrorMessage(error.message);
+        }
       }
-
-      setRemoving(false);
     },
+    allowFailure: true,
   });
 
   async function removeBook(book: interfaces.Book) {
