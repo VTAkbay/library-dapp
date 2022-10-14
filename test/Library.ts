@@ -53,7 +53,6 @@ describe("Test Library contract", function () {
     // Check the book if the values are correct
     expect(book._isValid).to.equal(true);
     expect(book._isbn).to.equal(data.book.isbn);
-    expect(book._owner).to.equal(owner.address);
     expect(book._title).to.equal(data.book.title);
     expect(book._authorFirstName).to.equal(data.book.authorFirstName);
     expect(book._authorLastName).to.equal(data.book.authorLastName);
@@ -67,6 +66,7 @@ describe("Test Library contract", function () {
     // Check if the copy has been created
     const copy = await contract.copies(0);
     expect(copy._isValid).to.equal(true);
+    expect(copy._isbn).to.equal(data.book.isbn);
   });
 
   it("Issue copy should work", async function () {
@@ -80,7 +80,7 @@ describe("Test Library contract", function () {
 
     // Check if the copy has been issued
     const copy = await contract.copies(0);
-    expect(copy.holder).to.equal(owner.address);
+    expect(copy._holder).to.equal(owner.address);
   });
 
   it("Return copy should work", async function () {
@@ -94,7 +94,7 @@ describe("Test Library contract", function () {
 
     // Check if the copy has been returned
     const copy = await contract.copies(0);
-    expect(copy.holder).to.equal(data.defaultHolder);
+    expect(copy._holder).to.equal(data.defaultHolder);
   });
 
   it("Delete copy should work", async function () {
