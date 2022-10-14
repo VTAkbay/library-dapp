@@ -20,6 +20,7 @@ contract Library {
     }
 
     struct Copy {
+        string _isbn;
         bool _isValid;
         address _holder;
     }
@@ -76,6 +77,7 @@ contract Library {
         uint256 copyId = _nextCopyId++;
         Copy storage copy = copies[copyId];
         copy._isValid = true;
+        copy._isbn = isbn;
         book.copyIds.push(copyId);
     }
 
