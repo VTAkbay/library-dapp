@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/library-dapp/static/css/main.83430785.css",
-    "main.js": "/library-dapp/static/js/main.e25dfd9f.js",
+    "main.js": "/library-dapp/static/js/main.77fecc3f.js",
     "static/js/963.a40d5547.chunk.js": "/library-dapp/static/js/963.a40d5547.chunk.js",
     "static/js/448.cf6e5524.chunk.js": "/library-dapp/static/js/448.cf6e5524.chunk.js",
     "static/js/320.53303ed6.chunk.js": "/library-dapp/static/js/320.53303ed6.chunk.js",
@@ -36,6 +36,6 @@
   },
   "entrypoints": [
     "static/css/main.83430785.css",
-    "static/js/main.e25dfd9f.js"
+    "static/js/main.77fecc3f.js"
   ]
 }
