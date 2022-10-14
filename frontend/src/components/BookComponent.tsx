@@ -230,10 +230,10 @@ export default function BookComponent({
   }, [books, bookIsbn, address, isConnecting, isReconnecting]);
 
   React.useEffect(() => {
-    if (address && !isConnecting && !isReconnecting && bookIsbns) {
+    if (address && !isConnecting && !isReconnecting) {
       setContractRead(true);
     }
-  }, [address, isConnecting, isReconnecting, bookIsbns]);
+  }, [address, isConnecting, isReconnecting]);
 
   const { writeAsync: removeBookWrite } = useContractWrite({
     mode: "recklesslyUnprepared",
