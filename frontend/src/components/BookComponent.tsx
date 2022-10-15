@@ -130,7 +130,7 @@ export default function BookComponent({
 
   const { data: books } = useContractReads({
     contracts: bookIsbns
-      ? bookIsbns.map((book: any) => ({
+      ? bookIsbns.map((book) => ({
           addressOrName: contractAdress,
           contractInterface: contractInterface,
           functionName: "bookByIsbn",
@@ -151,7 +151,7 @@ export default function BookComponent({
 
   const { data: copyIdsOfBooks } = useContractReads({
     contracts: bookIsbns
-      ? bookIsbns.map((book: any) => ({
+      ? bookIsbns.map((book) => ({
           addressOrName: contractAdress,
           contractInterface: contractInterface,
           functionName: "getCopyIdsByIsbn",
