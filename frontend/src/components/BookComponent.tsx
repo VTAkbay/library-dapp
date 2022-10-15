@@ -170,6 +170,33 @@ export default function BookComponent({
     allowFailure: true,
   });
 
+  const allCopyIds: Number[] = [];
+
+  copyIdsOfBooks?.map((i) =>
+    i.map((copy) => allCopyIds.push(Number(copy._hex)))
+  );
+
+  const { data: copies } = useContractReads({
+    contracts: allCopyIds
+      ? allCopyIds.map((id) => ({
+          addressOrName: contractAdress,
+          contractInterface: contractInterface,
+          functionName: "copies",
+          args: [id],
+        }))
+      : [
+          {
+            addressOrName: contractAdress,
+            contractInterface: contractInterface,
+            functionName: "copies",
+            args: [" "],
+          },
+        ],
+    enabled: Boolean(bookIsbns),
+    watch: true,
+    allowFailure: true,
+  });
+
   React.useEffect(() => {
     if (address && !isConnecting && !isReconnecting) {
       if (Number(bookIsbnsLength?._hex) === 0) {
