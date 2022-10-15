@@ -425,7 +425,7 @@ export default function BookComponent({
           <Dialog
             open={Boolean(addCopyIsbn)}
             onClose={() => {
-              setAddCopyIsbn("");
+              if (!addingCopy) setAddCopyIsbn("");
             }}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
@@ -443,7 +443,7 @@ export default function BookComponent({
                 loading={addingCopy}
                 sx={{ color: "green" }}
               >
-                Add
+                {!addingCopy ? "Add" : "Adding copy please wait!"}
               </LoadingButton>
               <Button
                 onClick={() => {
@@ -451,6 +451,7 @@ export default function BookComponent({
                 }}
                 variant="outlined"
                 autoFocus
+                disabled={addingCopy}
               >
                 Cancel
               </Button>
