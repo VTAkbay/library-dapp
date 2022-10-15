@@ -20,6 +20,7 @@ contract Library {
     }
 
     struct Copy {
+        uint256 _id;
         string _isbn;
         bool _isValid;
         address _holder;
@@ -76,6 +77,7 @@ contract Library {
         require(book._isValid, "Invalid book");
         uint256 copyId = _nextCopyId++;
         Copy storage copy = copies[copyId];
+        copy._id = copyId;
         copy._isValid = true;
         copy._isbn = isbn;
         book.copyIds.push(copyId);
