@@ -547,7 +547,16 @@ export default function BookComponent({
                           variant={isMobile ? "body2" : "body1"}
                           color="text.secondary"
                         >
-                          {"Total copy: " + book.copyIds.length}
+                          {"Total / Available copy: " +
+                            (book.copies.length
+                              ? book.copies.length +
+                                "/" +
+                                book.copies.filter(
+                                  (copy) =>
+                                    copy.holder ===
+                                    "0x0000000000000000000000000000000000000000"
+                                ).length
+                              : "No Copy")}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
