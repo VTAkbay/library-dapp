@@ -228,8 +228,15 @@ export default function BookComponent({
     } else if (!address && !isConnecting && !isReconnecting) {
       setLoading(false);
     }
-    // eslint-disable-next-line
-  }, [books, bookIsbn, address, isConnecting, isReconnecting]);
+  }, [
+    books,
+    copies,
+    bookIsbnsLength,
+    bookIsbn,
+    address,
+    isConnecting,
+    isReconnecting,
+  ]);
 
   React.useEffect(() => {
     if (address && !isConnecting && !isReconnecting) {
