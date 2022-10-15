@@ -82,7 +82,7 @@ export default function BookComponent({
   const [addingCopy, setAddingCopy] = React.useState(false);
   const isHasCopy = Boolean(
     data?.books.filter(
-      (book) => book.isbn === removeBookIsbn && book.copyIds.length === 0
+      (book) => book.isbn === removeBookIsbn && book.copies.length === 0
     ).length
   );
   const [openRemoveBookDialog, setOpenRemoveBookDialog] = React.useState(false);
