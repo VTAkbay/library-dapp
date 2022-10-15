@@ -3,7 +3,7 @@ import ABI from "../library-abi.json";
 
 export const contractInterface = ABI;
 
-export const contractAdress = "0xad7B1F48b5755F600f4a9784DCa5B6787963E0F2";
+export const contractAdress = "0x0F22364A367e3690952C9fc90944b9F215F1cc65";
 
 export const openInNewTab = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
