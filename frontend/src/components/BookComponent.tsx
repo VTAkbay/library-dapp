@@ -44,6 +44,8 @@ import {
 declare module interfaces {
   export interface Copy {
     id: number;
+    isbn: string;
+    isValid: boolean;
     holder: string;
   }
   export interface Book {
