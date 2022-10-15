@@ -54,7 +54,7 @@ declare module interfaces {
     title: string;
     authorFirstName: string;
     authorLastName: string;
-    copyIds: Copy[];
+    copies: Copy[];
   }
 
   export interface BookInterface {
