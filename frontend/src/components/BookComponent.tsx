@@ -182,38 +182,48 @@ export default function BookComponent({
           if (bookIsbn) {
             setData({
               books: books
-                ?.map((book, index) => ({
+                ?.map((book) => ({
                   isValid: book._isValid,
-                  owner: book._owner,
                   isbn: book._isbn,
                   title: book._title,
                   authorFirstName: book._authorFirstName,
                   authorLastName: book._authorLastName,
-                  copyIds: copyIdsOfBooks![index].map((copyId) => {
-                    return {
-                      id: Number(copyId._hex),
-                      holder: "test",
-                    };
-                  }),
+                  copies: copies
+                    ? copies
+                        .filter((copy) => copy._isbn === book._isbn)
+                        .map((copy) => {
+                          return {
+                            id: Number(copy._id),
+                            isbn: copy._isbn,
+                            isValid: copy._isValid,
+                            holder: copy._holder,
+                          };
+                        })
+                    : [],
                 }))
                 .filter((book) => book.isbn === bookIsbn),
               total: books.filter((book) => book._isbn === bookIsbn).length,
             });
           } else {
             setData({
-              books: books?.map((book, index) => ({
+              books: books?.map((book) => ({
                 isValid: book._isValid,
-                owner: book._owner,
                 isbn: book._isbn,
                 title: book._title,
                 authorFirstName: book._authorFirstName,
                 authorLastName: book._authorLastName,
-                copyIds: copyIdsOfBooks![index].map((copyId) => {
-                  return {
-                    id: Number(copyId._hex),
-                    holder: "test",
-                  };
-                }),
+                copies: copies
+                  ? copies
+                      .filter((copy) => copy._isbn === book._isbn)
+                      .map((copy) => {
+                        return {
+                          id: Number(copy._id),
+                          isbn: copy._isbn,
+                          isValid: copy._isValid,
+                          holder: copy._holder,
+                        };
+                      })
+                  : [],
               })),
               total: books.length,
             });
