@@ -1,45 +1,46 @@
-import React from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   Alert,
+  Box,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
   Container,
+  Snackbar,
   Typography,
   useMediaQuery,
-  Box,
-  Snackbar,
 } from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import CloseIcon from "@mui/icons-material/Close";
-import { LoadingButton } from "@mui/lab";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Grid from "@mui/material/Unstable_Grid2";
-import { Link } from "react-router-dom";
-import Loader from "./Loader";
-import ShareButton from "./ShareButton";
+import {
+  contractAdress,
+  contractInterface,
+  libraryContract,
+} from "../lib/utils";
 import {
   useAccount,
   useContractRead,
   useContractReads,
   useContractWrite,
 } from "wagmi";
-import {
-  contractAdress,
-  contractInterface,
-  libraryContract,
-} from "../lib/utils";
+
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Unstable_Grid2";
+import IconButton from "@mui/material/IconButton";
+import { Link } from "react-router-dom";
+import Loader from "./Loader";
+import { LoadingButton } from "@mui/lab";
+import React from "react";
+import ShareButton from "./ShareButton";
 
 declare module interfaces {
   export interface Copy {

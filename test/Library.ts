@@ -1,7 +1,7 @@
-import { ethers } from "hardhat";
-import { expect } from "chai";
 import { Library } from "../typechain-types";
 import { PromiseOrValue } from "../typechain-types/common";
+import { ethers } from "hardhat";
+import { expect } from "chai";
 
 const data = {
   book: {

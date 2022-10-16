@@ -1,4 +1,5 @@
 import { Box, Container, useTheme } from "@mui/material";
+
 import { Triangle } from "react-loader-spinner";
 
 const Loader = () => {

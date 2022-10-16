@@ -1,17 +1,15 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header";
-import NotFound from "./pages/404";
+import "@rainbow-me/rainbowkit/styles.css";
+
+import { HashRouter, Route, Routes } from "react-router-dom";
+
 import Book from "./pages/Book";
 import Books from "./pages/Books";
+import Header from "./components/Header";
 import Home from "./pages/Home";
 import MyBooks from "./pages/MyBooks";
-import {
-  // darkTheme,
-  // lightTheme,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
+import NotFound from "./pages/404";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { chain } from "wagmi";
 import { chains } from "./lib/wagmi";
 

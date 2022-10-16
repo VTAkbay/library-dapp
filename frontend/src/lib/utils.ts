@@ -1,5 +1,5 @@
-import axios from "axios";
 import ABI from "../library-abi.json";
+import axios from "axios";
 
 export const contractInterface = ABI;
 

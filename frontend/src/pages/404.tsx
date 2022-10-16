@@ -1,4 +1,5 @@
 import { Box, Button, Container, Typography } from "@mui/material";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import logo from "../static/images/page-not-found.svg";
 import { useNavigate } from "react-router-dom";
