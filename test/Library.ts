@@ -19,21 +19,7 @@ let owner: { address: PromiseOrValue<string> };
 describe("Test Library contract", function () {
   before(async function () {
     [owner] = await ethers.getSigners();
-
-    const BookContract = await ethers.getContractFactory("BookUtils");
-    const bookContract = await BookContract.deploy();
-    await bookContract.deployed();
-
-    const UtilsContract = await ethers.getContractFactory("StringUtils");
-    const utilsContract = await UtilsContract.deploy();
-    await utilsContract.deployed();
-
-    const LibraryContract = await ethers.getContractFactory("Library", {
-      libraries: {
-        BookUtils: bookContract.address,
-        StringUtils: utilsContract.address,
-      },
-    });
+    const LibraryContract = await ethers.getContractFactory("Library");
     contract = await LibraryContract.deploy();
   });
 
