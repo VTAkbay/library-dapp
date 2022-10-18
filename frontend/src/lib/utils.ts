@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const contractInterface = ABI;
 
-export const contractAdress = "0x0F22364A367e3690952C9fc90944b9F215F1cc65";
+export const contractAdress = "0x584d49fF828fFC24c9beEAb6A36d0e98cB05Feda";
 
 export const openInNewTab = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
