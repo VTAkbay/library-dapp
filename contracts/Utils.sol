@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 library StringUtils {
     function equals(string memory a, string memory b)
-        public
+        internal
         pure
         returns (bool)
     {

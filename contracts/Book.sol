@@ -13,7 +13,7 @@ struct Book {
 
 library BookUtils {
     function getCopyIndex(Book storage book, uint256 copyId)
-        public
+        internal
         view
         returns (uint256, bool)
     {
@@ -25,12 +25,12 @@ library BookUtils {
         return (0, false);
     }
 
-    function removeCopyByIndex(Book storage book, uint256 copyIndex) public {
+    function removeCopyByIndex(Book storage book, uint256 copyIndex) internal {
         book.copyIds[copyIndex] = book.copyIds[book.copyIds.length - 1];
         book.copyIds.pop();
     }
 
-    function removeCopy(Book storage book, uint256 copyId) public {
+    function removeCopy(Book storage book, uint256 copyId) internal {
         uint256 copyIndex;
         bool copyFound;
         (copyIndex, copyFound) = getCopyIndex(book, copyId);
