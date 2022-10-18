@@ -91,6 +91,8 @@ export default function CreateBookModal({
       }
 
       if (error?.name && error.message) {
+        setConfirming(false);
+        setAdding(false);
         setAddingError(true);
         setAddingErrorMessage(error.message);
       }
