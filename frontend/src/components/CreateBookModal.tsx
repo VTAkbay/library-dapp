@@ -286,23 +286,13 @@ export default function CreateBookModal({
       >
         <Alert
           action={
-            <>
-              <Button
-                onClick={handleErrorBar}
-                type="submit"
-                color="inherit"
-                size="small"
-              >
-                Retry
-              </Button>
-              <IconButton
-                sx={{ marginLeft: "1rem", padding: "4px" }}
-                aria-label="delete"
-                onClick={handleErrorBar}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </>
+            <IconButton
+              sx={{ marginLeft: "1rem", padding: "4px" }}
+              aria-label="delete"
+              onClick={handleErrorBar}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
           }
           severity="warning"
           sx={{ width: "100%" }}
