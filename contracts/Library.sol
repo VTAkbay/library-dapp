@@ -47,6 +47,7 @@ contract Library {
         string memory isbn
     ) public onlyOwner {
         Book storage book = bookByIsbn[isbn];
+        require(!book._isValid, "Already created");
         book._isValid = true;
         book._isbn = isbn;
         book._title = title;
