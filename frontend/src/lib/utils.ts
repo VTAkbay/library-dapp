@@ -6,7 +6,7 @@ export const isDev =
 
 export const contractInterface = ABI;
 
-export const contractAdress = "0x584d49fF828fFC24c9beEAb6A36d0e98cB05Feda";
+export const contractAddress = "0x584d49fF828fFC24c9beEAb6A36d0e98cB05Feda";
 
 export const openInNewTab = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
