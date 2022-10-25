@@ -2,6 +2,7 @@ import "./App.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import { HashRouter, Route, Routes } from "react-router-dom";
+import { chains, ganacheChain } from "./lib/wagmi";
 
 import Book from "./pages/Book";
 import Books from "./pages/Books";
@@ -11,16 +12,15 @@ import MyBooks from "./pages/MyBooks";
 import NotFound from "./pages/404";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { chain } from "wagmi";
-import { chains } from "./lib/wagmi";
+import { isDev } from "./lib/utils";
 
 function App() {
   return (
     <HashRouter>
       <RainbowKitProvider
         coolMode
-        // theme={theme.palette.mode === "dark" ? darkTheme() : lightTheme()}
         chains={chains}
-        initialChain={chain.goerli}
+        initialChain={isDev ? ganacheChain : chain.goerli}
         showRecentTransactions={true}
       >
         <Header />
