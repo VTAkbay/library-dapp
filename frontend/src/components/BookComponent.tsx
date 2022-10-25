@@ -42,32 +42,6 @@ import { LoadingButton } from "@mui/lab";
 import React from "react";
 import ShareButton from "./ShareButton";
 
-declare module interfaces {
-  export interface Copy {
-    id: number;
-    isbn: string;
-    isValid: boolean;
-    holder: string;
-  }
-  export interface Book {
-    isValid: boolean;
-    isbn: string;
-    title: string;
-    authorFirstName: string;
-    authorLastName: string;
-    copies: Copy[];
-  }
-
-  export interface BookInterface {
-    books: Book[];
-    total: number;
-  }
-
-  export interface BookComponentProps {
-    bookIsbn?: string;
-  }
-}
-
 export default function BookComponent({
   bookIsbn,
 }: interfaces.BookComponentProps) {

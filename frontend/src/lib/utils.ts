@@ -27,3 +27,29 @@ export const headerPages = [
   { key: 0, title: "Books", route: "books" },
   { key: 1, title: "My Books", route: "my-books" },
 ];
+
+export declare module interfaces {
+  export interface Copy {
+    id: number;
+    isbn: string;
+    isValid: boolean;
+    holder: string;
+  }
+  export interface Book {
+    isValid: boolean;
+    isbn: string;
+    title: string;
+    authorFirstName: string;
+    authorLastName: string;
+    copies: Copy[];
+  }
+
+  export interface BookInterface {
+    books: Book[];
+    total: number;
+  }
+
+  export interface BookComponentProps {
+    bookIsbn?: string;
+  }
+}
