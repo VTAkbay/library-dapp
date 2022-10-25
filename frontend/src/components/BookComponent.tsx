@@ -91,17 +91,9 @@ export default function BookComponent({
             functionName: "bookIsbns",
             args: [index],
           }))
-      : [
-          {
-            addressOrName: contractAdress,
-            contractInterface: contractInterface,
-            functionName: "bookIsbns",
-            args: [0],
-          },
-        ],
+      : [],
     enabled: Boolean(bookIsbnsLength?._hex),
     watch: true,
-    allowFailure: true,
   });
 
   const { data: books } = useContractReads({
@@ -112,17 +104,9 @@ export default function BookComponent({
           functionName: "bookByIsbn",
           args: [book],
         }))
-      : [
-          {
-            addressOrName: contractAdress,
-            contractInterface: contractInterface,
-            functionName: "bookByIsbn",
-            args: [" "],
-          },
-        ],
+      : [],
     enabled: Boolean(bookIsbns),
     watch: true,
-    allowFailure: true,
   });
 
   const { data: copyIdsOfBooks } = useContractReads({
@@ -133,17 +117,9 @@ export default function BookComponent({
           functionName: "getCopyIdsByIsbn",
           args: [book],
         }))
-      : [
-          {
-            addressOrName: contractAdress,
-            contractInterface: contractInterface,
-            functionName: "getCopyIdsByIsbn",
-            args: [" "],
-          },
-        ],
+      : [],
     enabled: Boolean(bookIsbns),
     watch: true,
-    allowFailure: true,
   });
 
   const allCopyIds: Number[] = [];
@@ -160,17 +136,9 @@ export default function BookComponent({
           functionName: "copies",
           args: [id],
         }))
-      : [
-          {
-            addressOrName: contractAdress,
-            contractInterface: contractInterface,
-            functionName: "copies",
-            args: [" "],
-          },
-        ],
+      : [],
     enabled: Boolean(bookIsbns),
     watch: true,
-    allowFailure: true,
   });
 
   React.useEffect(() => {
