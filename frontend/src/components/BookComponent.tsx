@@ -12,8 +12,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import {
-  contractAdress,
+  contractAddress,
   contractInterface,
+  interfaces,
   libraryContract,
 } from "../lib/utils";
 import {
@@ -73,7 +74,7 @@ export default function BookComponent({
   });
 
   const { data: bookIsbnsLength } = useContractRead({
-    addressOrName: contractAdress,
+    addressOrName: contractAddress,
     contractInterface: contractInterface,
     functionName: "getBookIsbnsLength",
     enabled: contractRead,
@@ -85,7 +86,7 @@ export default function BookComponent({
       ? Array(Number(bookIsbnsLength._hex))
           .fill(0)
           .map((i, index) => ({
-            addressOrName: contractAdress,
+            addressOrName: contractAddress,
             contractInterface: contractInterface,
             functionName: "bookIsbns",
             args: [index],
@@ -106,7 +107,7 @@ export default function BookComponent({
   const { data: books } = useContractReads({
     contracts: bookIsbns
       ? bookIsbns.map((book) => ({
-          addressOrName: contractAdress,
+          addressOrName: contractAddress,
           contractInterface: contractInterface,
           functionName: "bookByIsbn",
           args: [book],
@@ -127,7 +128,7 @@ export default function BookComponent({
   const { data: copyIdsOfBooks } = useContractReads({
     contracts: bookIsbns
       ? bookIsbns.map((book) => ({
-          addressOrName: contractAdress,
+          addressOrName: contractAddress,
           contractInterface: contractInterface,
           functionName: "getCopyIdsByIsbn",
           args: [book],
@@ -154,7 +155,7 @@ export default function BookComponent({
   const { data: copies } = useContractReads({
     contracts: allCopyIds
       ? allCopyIds.map((id) => ({
-          addressOrName: contractAdress,
+          addressOrName: contractAddress,
           contractInterface: contractInterface,
           functionName: "copies",
           args: [id],
@@ -258,7 +259,7 @@ export default function BookComponent({
 
   const { writeAsync: removeBookWrite } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: contractAdress,
+    addressOrName: contractAddress,
     contractInterface: contractInterface,
     functionName: "removeBook",
     args: removeBookIsbn,
@@ -309,7 +310,7 @@ export default function BookComponent({
 
   const { writeAsync: addCopyToBookWrite } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: contractAdress,
+    addressOrName: contractAddress,
     contractInterface: contractInterface,
     functionName: "addCopy",
     args: addCopyIsbn,

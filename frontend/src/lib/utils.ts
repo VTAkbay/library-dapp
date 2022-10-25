@@ -1,6 +1,9 @@
 import ABI from "../library-abi.json";
 import axios from "axios";
 
+export const isDev =
+  !process.env.NODE_ENV || process.env.NODE_ENV === "development";
+
 export const contractInterface = ABI;
 
 export const contractAdress = "0x584d49fF828fFC24c9beEAb6A36d0e98cB05Feda";
@@ -15,11 +18,8 @@ export async function mockImg() {
   });
 }
 
-export const isDev =
-  !process.env.NODE_ENV || process.env.NODE_ENV === "development";
-
 export const libraryContract = {
-  addressOrName: contractAdress,
+  addressOrName: contractAddress,
   contractInterface: contractInterface,
 };
 
