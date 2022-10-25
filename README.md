@@ -13,6 +13,6 @@ npx hardhat run scripts/deploy.ts
 
 npx hardhat compile
 npm run test
-npx hardhat run scripts/deployLibrary.ts --network goerli
+npx hardhat run scripts/deployLibrary.ts --network <goerli | ganache>
 npx hardhat verify --network goerli <contractAddress>
 ```
