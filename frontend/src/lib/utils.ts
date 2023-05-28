@@ -6,7 +6,9 @@ export const isDev =
 
 export const contractInterface = ABI;
 
-export const contractAddress = "0x584d49fF828fFC24c9beEAb6A36d0e98cB05Feda";
+export const contractAddress = isDev
+  ? "0xc718A64528bA2ab86c01e5D3B881aEB9Ce8135A5" // Ganache
+  : "0x1029b7182b99A1b0Aa58d598974d601651b78504"; // Goerli
 
 export const openInNewTab = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
